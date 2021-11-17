@@ -147,15 +147,6 @@ func applyContainerdFlags(c *cli.Context, cfg *config.Config) error {
 		cfg.Workers.Containerd.Enabled = boolOrAuto
 	}
 
-	// GlobalBool works for BoolT as well
-	rootless := c.GlobalBool("rootless")
-	if rootless {
-		logrus.Warn("rootless mode is not supported for containerd workers. disabling containerd worker.")
-		b := false
-		cfg.Workers.Containerd.Enabled = &b
-		return nil
-	}
-
 	labels, err := attrMap(c.GlobalStringSlice("containerd-worker-labels"))
 	if err != nil {
 		return err
